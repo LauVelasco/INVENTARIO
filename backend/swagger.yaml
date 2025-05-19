@@ -1,0 +1,396 @@
+openapi: 3.0.0
+info:
+  title: API Sistema de Préstamo de Herramientas
+  version: 1.0.0
+  description: API RESTful para gestionar tipos de empleados, empleados, bodegas, herramientas, préstamos y devoluciones.
+
+servers:
+  - url: http://localhost:8000/api
+
+paths:
+
+  /tipo_empleado:
+    get:
+      summary: Obtener todos los tipos de empleados
+      responses:
+        '200':
+          description: Lista de tipos de empleados
+    post:
+      summary: Crear un nuevo tipo de empleado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre_tipo:
+                  type: string
+      responses:
+        '201':
+          description: Tipo de empleado creado
+
+  /tipo_empleado/{id}:
+    put:
+      summary: Actualizar un tipo de empleado por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre_tipo:
+                  type: string
+      responses:
+        '200':
+          description: Tipo de empleado actualizado
+    delete:
+      summary: Eliminar un tipo de empleado por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tipo de empleado eliminado
+
+  /empleado:
+    get:
+      summary: Obtener todos los empleados
+      responses:
+        '200':
+          description: Lista de empleados
+    post:
+      summary: Crear un nuevo empleado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                apellido:
+                  type: string
+                cedula:
+                  type: string
+                id_tipo_empleado:
+                  type: integer
+      responses:
+        '201':
+          description: Empleado creado
+
+  /empleado/{id}:
+    put:
+      summary: Actualizar un empleado por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                apellido:
+                  type: string
+                cedula:
+                  type: string
+                id_tipo_empleado:
+                  type: integer
+      responses:
+        '200':
+          description: Empleado actualizado
+    delete:
+      summary: Eliminar un empleado por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Empleado eliminado
+
+  /bodega:
+    get:
+      summary: Obtener todas las bodegas
+      responses:
+        '200':
+          description: Lista de bodegas
+    post:
+      summary: Crear una nueva bodega
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_bodega:
+                  type: integer
+                ubicacion:
+                  type: string
+      responses:
+        '201':
+          description: Bodega creada
+
+  /bodega/{id}:
+    put:
+      summary: Actualizar una bodega por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ubicacion:
+                  type: string
+      responses:
+        '200':
+          description: Bodega actualizada
+    delete:
+      summary: Eliminar una bodega por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Bodega eliminada
+
+  /herramienta:
+    get:
+      summary: Obtener todas las herramientas
+      responses:
+        '200':
+          description: Lista de herramientas
+    post:
+      summary: Crear una nueva herramienta
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre_herramienta:
+                  type: string
+                codigo_herramienta:
+                  type: string
+                estado:
+                  type: string
+      responses:
+        '201':
+          description: Herramienta creada
+
+  /herramienta/{id}:
+    put:
+      summary: Actualizar una herramienta por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre_herramienta:
+                  type: string
+                codigo_herramienta:
+                  type: string
+                estado:
+                  type: string
+      responses:
+        '200':
+          description: Herramienta actualizada
+    delete:
+      summary: Eliminar una herramienta por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Herramienta eliminada
+
+  /prestamo:
+    get:
+      summary: Obtener todos los préstamos
+      responses:
+        '200':
+          description: Lista de préstamos
+    post:
+      summary: Crear un nuevo préstamo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_empleado:
+                  type: integer
+                id_herramienta:
+                  type: integer
+                id_bodega:
+                  type: integer
+                fecha_prestamo:
+                  type: string
+                  format: date
+                hora_prestamo:
+                  type: string
+                  format: time
+                tiempo_estimado:
+                  type: string
+      responses:
+        '201':
+          description: Préstamo creado
+
+  /prestamo/{id}:
+    put:
+      summary: Actualizar un préstamo por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_empleado:
+                  type: integer
+                id_herramienta:
+                  type: integer
+                id_bodega:
+                  type: integer
+                fecha_prestamo:
+                  type: string
+                  format: date
+                hora_prestamo:
+                  type: string
+                  format: time
+                tiempo_estimado:
+                  type: string
+      responses:
+        '200':
+          description: Préstamo actualizado
+    delete:
+      summary: Eliminar un préstamo por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Préstamo eliminado
+
+  /devolucion:
+    get:
+      summary: Obtener todas las devoluciones
+      responses:
+        '200':
+          description: Lista de devoluciones
+    post:
+      summary: Crear una nueva devolución
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_prestamo:
+                  type: integer
+                fecha_devolucion:
+                  type: string
+                  format: date
+                hora_devolucion:
+                  type: string
+                  format: time
+                descripcion:
+                  type: string
+      responses:
+        '201':
+          description: Devolución creada
+
+  /devolucion/{id}:
+    put:
+      summary: Actualizar una devolución por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_prestamo:
+                  type: integer
+                fecha_devolucion:
+                  type: string
+                  format: date
+                hora_devolucion:
+                  type: string
+                  format: time
+                descripcion:
+                  type: string
+      responses:
+        '200':
+          description: Devolución actualizada
+    delete:
+      summary: Eliminar una devolución por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Devolución eliminada
