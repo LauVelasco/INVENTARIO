@@ -17,6 +17,7 @@ app.use(bodyParser.json());   // Parsear JSON
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Rutas de la API
+app.use('/api/auth', require('./routers/auth'));
 app.use('/api/bodega', require('./routers/bodega'));  // Asegúrate de que este archivo exista
 app.use('/api/devolucion', require('./routers/devolucion'));
 app.use('/api/empleado', require('./routers/empleado'));

@@ -1,78 +1,141 @@
 <template>
-  <div id="app">
-    <header>
-      <h2 class="logo">Calipso</h2>
-      <nav class="navigation">
-        <a href="#">Contáctenos</a>
-      </nav>
-    </header>
+  <div class="container">
+    <form @submit.prevent="enviarDatos" class="form-box">
+      <h2>LOGIN</h2>
 
-    <div class="wrapper">
-      <div class="form-box login">
-        <h2>Datos del Técnico para Préstamo de Herramientas</h2>
-        <form @submit.prevent="handleSubmit">
-          <div class="input-box">
-            <label class="campo-etiqueta">
-              <span class="icon"><ion-icon name="construct"></ion-icon></span>
-              <span class="campo-nombre">Tipo de empleado</span>
-            </label>
-            <select v-model="form.tipo_empleado" required>
-              <option value="" disabled selected>Seleccione una opción</option>
-              <option value="1">1. líder-jefe</option>
-              <option value="2">2. mantenimiento</option>
-            </select>
-          </div>
+      <label>
+        <span class="icon">⚙️</span> Tipo de empleado
+        <select v-model="tipoEmpleado" required>
+          <option disabled value="">Seleccione una opción</option>
+          <option value="líder-jefe">Líder-Jefe</option>
+          <option value="mantenimiento">Mantenimiento</option>
+        </select>
+      </label>
 
-          <div class="input-box">
-            <label class="campo-etiqueta">
-              <span class="icon"><ion-icon name="person"></ion-icon></span>
-              <span class="campo-nombre">Nombre</span>
-            </label>
-            <input type="text" v-model="form.nombre" required placeholder="Nombre" />
-          </div>
+      <label>
+        <span class="icon">🆔</span> Cédula
+        <input type="text" v-model="cedula" placeholder="Cédula" required />
+      </label>
 
-          <div class="input-box">
-            <label class="campo-etiqueta">
-              <span class="icon"><ion-icon name="person"></ion-icon></span>
-              <span class="campo-nombre">Apellido</span>
-            </label>
-            <input type="text" v-model="form.apellido" required placeholder="Apellido" />
-          </div>
-
-          <div class="input-box">
-            <label class="campo-etiqueta">
-              <span class="icon"><ion-icon name="finger-print"></ion-icon></span>
-              <span class="campo-nombre">Cédula</span>
-            </label>
-            <input type="text" v-model="form.cedula" required placeholder="Cédula" />
-          </div>
-
-          <button type="submit" class="btn">Ingresar</button>
-        </form>
-      </div>
-    </div>
+      <button type="submit">Ingresar</button>
+    </form>
   </div>
 </template>
 
-<script setup>
-import { reactive } from 'vue';
+<script>
 
-const form = reactive({
-  tipo_empleado: '',
-  nombre: '',
-  apellido: '',
-  cedula: ''
-});
+import apiService from '../servicios/apiservices'
+export default {
+  name: 'TipoEmpleado',
+  data() {
+    return {
+      tipoEmpleado: '',
+      cedula: ''
+    };
+  },
+  methods: {
+   async enviarDatos() {
+    const datosTecnico = {
+        id_tipo_empleado: this.tipoEmpleado == 'líder-jefe' ? 5 : 6,
+        cedula: this.cedula,
+      };
 
-function handleSubmit() {
-  console.log('Formulario enviado:', form);
-  alert('Préstamo exitoso');
-  // Aquí podrías emitir un evento o llamar a una API
-}
+      try {
+        const apiresult = await apiService.login.valideUser(datosTecnico);
+        if(apiresult.length === 0){
+          console.log("F")
+        }else{
+          this.$router.push({ name: 'Menu' });
+        }
+        console.log("Resultado de la API:", apiresult);
+      } catch (error) {
+        console.error("Error al validar usuario:", error.message);
+      }
+    }
+  }
+};
 </script>
 
 <style scoped>
-@import './style.css';
-</style>
+.container {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  padding: 20px;
+}
 
-<!-- Ionicons scripts deben ir en el index.html principal del proyecto -->
+.form-box {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 15px;
+  padding: 40px 50px;
+  width: 400px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  color: #1b1b1b;
+  font-weight: 700;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 30px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  font-size: 18px;
+  position: relative;
+  color: #222;
+}
+
+.icon {
+  position: absolute;
+  left: 10px;
+  top: 30px;
+  font-size: 18px;
+  color: #444;
+}
+
+select,
+input[type="text"] {
+  width: 100%;
+  padding: 10px 12px 10px 35px;
+  border: none;
+  border-bottom: 2px solid #3f51b5;
+  background: transparent;
+  font-size: 16px;
+  outline: none;
+  color: #222;
+}
+
+select option {
+  color: #222;
+}
+
+select:invalid {
+  color: #999;
+}
+
+button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 15px;
+  background-color: #3f51b5;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #2c387e;
+}
+</style>

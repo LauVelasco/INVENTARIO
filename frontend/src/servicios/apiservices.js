@@ -1,179 +1,298 @@
-// src/services/apiService.js
-
 const BASE_URL = 'http://localhost:8000/api';
 
 const apiService = {
   // Tipo de Empleado
+  login: {
+    async valideUser(data) {
+      try {
+        const res = await fetch(`${BASE_URL}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error('Error al validar usuario');
+        return await res.json();
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
+    },
+  },
+
+  // Tipo de Empleado
   tipoEmpleado: {
     async getAll() {
-      return fetch(`${BASE_URL}/tipo_empleado`)
-        .then(res => res.json())
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/tipo_empleado`);
+        if (!res.ok) throw new Error('Error al obtener tipos de empleado');
+        return await res.json();
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
+
     async create(data) {
-      return fetch(`${BASE_URL}/tipo_empleado`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-        .then(res => res.json())
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/tipo_empleado`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error('Error al crear tipo de empleado');
+        return await res.json();
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
+
     async update(id, data) {
-      return fetch(`${BASE_URL}/tipo_empleado/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-        .then(res => res.json())
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/tipo_empleado/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error('Error al actualizar tipo de empleado');
+        return await res.json();
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
+
     async delete(id) {
-      return fetch(`${BASE_URL}/tipo_empleado/${id}`, { method: 'DELETE' })
-        .then(res => res.ok)
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/tipo_empleado/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Error al eliminar tipo de empleado');
+        return res.ok;
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
   },
 
   // Empleado
   empleado: {
     async getAll() {
-      return fetch(`${BASE_URL}/empleado`)
-        .then(res => res.json())
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/empleado`);
+        if (!res.ok) throw new Error('Error al obtener empleados');
+        return await res.json();
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
+
     async create(data) {
-      return fetch(`${BASE_URL}/empleado`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-        .then(res => res.json())
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/empleado`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error('Error al crear empleado');
+        return await res.json();
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
+
     async update(id, data) {
-      return fetch(`${BASE_URL}/empleado/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-        .then(res => res.json())
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/empleado/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error('Error al actualizar empleado');
+        return await res.json();
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
+
     async delete(id) {
-      return fetch(`${BASE_URL}/empleado/${id}`, { method: 'DELETE' })
-        .then(res => res.ok)
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/empleado/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Error al eliminar empleado');
+        return res.ok;
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
   },
 
   // Bodega
   bodega: {
     async getAll() {
-      return fetch(`${BASE_URL}/bodega`)
-        .then(res => res.json())
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/bodega`);
+        if (!res.ok) throw new Error('Error al obtener bodegas');
+        return await res.json();
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
+
     async create(data) {
-      return fetch(`${BASE_URL}/bodega`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-        .then(res => res.json())
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/bodega`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error('Error al crear bodega');
+        return await res.json();
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
+
     async update(id, data) {
-      return fetch(`${BASE_URL}/bodega/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-        .then(res => res.json())
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/bodega/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error('Error al actualizar bodega');
+        return await res.json();
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
+
     async delete(id) {
-      return fetch(`${BASE_URL}/bodega/${id}`, { method: 'DELETE' })
-        .then(res => res.ok)
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/bodega/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Error al eliminar bodega');
+        return res.ok;
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
   },
 
   // Herramienta
   herramienta: {
     async getAll() {
-      return fetch(`${BASE_URL}/herramienta`)
-        .then(res => res.json())
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/herramienta`);
+        if (!res.ok) throw new Error('Error al obtener herramientas');
+        return await res.json();
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
+
     async create(data) {
-      return fetch(`${BASE_URL}/herramienta`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-        .then(res => res.json())
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/herramienta`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error('Error al crear herramienta');
+        return await res.json();
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
+
     async update(id, data) {
-      return fetch(`${BASE_URL}/herramienta/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-        .then(res => res.json())
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/herramienta/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error('Error al actualizar herramienta');
+        return await res.json();
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
+
     async delete(id) {
-      return fetch(`${BASE_URL}/herramienta/${id}`, { method: 'DELETE' })
-        .then(res => res.ok)
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/herramienta/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Error al eliminar herramienta');
+        return res.ok;
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
   },
 
   // Préstamo
   prestamo: {
     async getAll() {
-      return fetch(`${BASE_URL}/prestamo`)
-        .then(res => res.json())
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/prestamo`);
+        if (!res.ok) throw new Error('Error al obtener préstamos');
+        return await res.json();
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
+
     async create(data) {
-      return fetch(`${BASE_URL}/prestamo`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-        .then(res => res.json())
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/prestamo`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error('Error al crear préstamo');
+        return await res.json();
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
+
     async delete(id) {
-      return fetch(`${BASE_URL}/prestamo/${id}`, { method: 'DELETE' })
-        .then(res => res.ok)
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/prestamo/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Error al eliminar préstamo');
+        return res.ok;
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
   },
 
   // Devolución
   devolucion: {
     async getAll() {
-      return fetch(`${BASE_URL}/devolucion`)
-        .then(res => res.json())
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/devolucion`);
+        if (!res.ok) throw new Error('Error al obtener devoluciones');
+        return await res.json();
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
+
     async create(data) {
-      return fetch(`${BASE_URL}/devolucion`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-        .then(res => res.json())
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/devolucion`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error('Error al crear devolución');
+        return await res.json();
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
+
     async delete(id) {
-      return fetch(`${BASE_URL}/devolucion/${id}`, { method: 'DELETE' })
-        .then(res => res.ok)
-        .catch(err => { throw new Error(err); });
+      try {
+        const res = await fetch(`${BASE_URL}/devolucion/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Error al eliminar devolución');
+        return res.ok;
+      } catch (err) {
+        throw new Error(`Error de red o de servidor: ${err.message}`);
+      }
     },
   },
 };

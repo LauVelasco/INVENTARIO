@@ -131,7 +131,7 @@ router.put('/:id', (req, res) => {
     const { id } = req.params;
     const { nombre, estado } = req.body;
     pool.query(
-        'UPDATE herramienta SET nombre=$1, estado=$2 WHERE id_herramienta=$3 RETURNING *',
+        'UPDATE herramienta SET nombre_herramienta=$1, estado_herramienta=$2 WHERE id_herramienta=$3 RETURNING *',
         [nombre, estado, id],
         (err, results) => {
             if (err) return res.status(500).json({ error: err.message });
