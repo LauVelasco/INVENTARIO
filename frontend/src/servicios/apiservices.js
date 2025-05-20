@@ -112,10 +112,15 @@ const apiService = {
     async delete(id) {
       try {
         const res = await fetch(`${BASE_URL}/empleado/${id}`, { method: 'DELETE' });
-        if (!res.ok) throw new Error('Error al eliminar empleado');
+        if (!res.ok) {
+          if(res.status === 405){
+            throw new Error('No puedes eliminar al empleado porque esta asociado a un prestamo');
+          }
+          throw new Error('Error al eliminar empleado');
+        }
         return res.ok;
       } catch (err) {
-        throw new Error(`Error de red o de servidor: ${err.message}`);
+        throw new Error(`${err.message}`);
       }
     },
   },

@@ -1,54 +1,99 @@
-<!-- src/components/ManageTools.vue -->
 <template>
-    <div class="manage-tools">
-      <h1>Gestionar Herramientas</h1>
-      <p>Aquí puedes gestionar tus herramientas.</p>
-  
+  <div class="manage-tools-container">
+    <div class="header">
+      <h1>Menu de gestion</h1>
+      <p>Aquí puedes gestionar ....</p>
+
       <div class="button-group">
-        <button @click="agregarHerramienta" class="btn">Herramienta</button>
-        <!-- Puedes agregar más botones aquí en el futuro -->
+        <button @click="mostrarComponente('Herramientas')" class="btn">Gestión de Herramientas</button>
+        <button @click="mostrarComponente('Prestamos')" class="btn">Gestión de Préstamos</button>
+        <button @click="mostrarComponente('Devoluciones')" class="btn">Gestión de Devoluciones</button>
+        <button @click="mostrarComponente('Empleados')" class="btn">Gestión de Empleados</button>
       </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'ManageTools',
-    methods: {
-      agregarHerramienta() {
-        this.$router.push({ name: 'Herramientas' });
-        console.log("Agregar Herramienta clickeado");
-      },
+
+    <div class="componente-activo">
+      <component :is="componenteSeleccionado" />
+    </div>
+  </div>
+</template>
+
+<script>
+import Herramientas from './SeleccionHerramienta.vue';
+import Empleados from './Empleado.vue'
+/*import Prestamos from './Prestamos.vue';
+import Devoluciones from './Devoluciones.vue';
+import Empleados from './Empleados.vue';*/
+
+export default {
+  name: 'ManageTools',
+  components: {
+    Herramientas,
+    Empleados
+  },
+  data() {
+    return {
+      componenteSeleccionado: null,
+    };
+  },
+  methods: {
+    mostrarComponente(nombre) {
+      this.componenteSeleccionado = nombre;
     },
-  };
-  </script>
-  
-  <style scoped>
-  .manage-tools {
-    padding: 20px;
-  }
-  
-  h1 {
-    color: #333;
-  }
-  
-  .button-group {
-    margin-top: 20px;
-  }
-  
-  .btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btn:hover {
-    background-color: #0056b3;
-  }
-  </style>
-  
+  },
+};
+</script>
+
+<style scoped>
+
+.manage-tools-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.header {
+  margin-bottom: 30px;
+  border-bottom: 2px solid #282525;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.header p {
+  color: #555;
+  font-size: 1.1rem;
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+.componente-activo {
+  margin-top: 20px;
+  width: 100%;
+}
+</style>

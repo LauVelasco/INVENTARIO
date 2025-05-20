@@ -186,13 +186,28 @@ router.put('/:id', (req, res) => {
  */
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
-    pool.query('DELETE FROM empleado WHERE id_empleado=$1', [id], (err, results) => {
-        if (err) return res.status(500).json({ error: err.message });
-        if (results.rowCount === 0) {
-            return res.status(404).json({ error: "Empleado no encontrado" });
+    pool.query('SELECT * FROM prestamo where id_empleado=$1', [id], (err, results) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({ error: err.message });
         }
-        res.status(204).send();
-    });
+        console.log("********",results)
+        if (results.rows.length > 0) {
+            return res.status(405).json({ error: "El empleado tiene un prestamo activo" });
+        }else{
+            pool.query('DELETE FROM empleado WHERE id_empleado=$1', [id], (err, results) => {
+                if (err) {
+                    console.log(err)
+                    return res.status(500).json({ error: err.message });
+                }
+                if (results.rowCount === 0) {
+                    return res.status(404).json({ error: "Empleado no encontrado" });
+                }
+                res.status(204).send();
+            });
+        }
+    })
+    
 });
 
 module.exports = router;
