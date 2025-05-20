@@ -147,7 +147,7 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     const { id } = req.params;
     const { nombre, apellido, cedula, id_tipo_empleado } = req.body;
-
+    console.log(req.body)
     if (!nombre || !apellido || !cedula || !id_tipo_empleado) {
         return res.status(400).json({ error: "Faltan campos obligatorios" });
     }

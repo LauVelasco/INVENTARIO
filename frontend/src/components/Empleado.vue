@@ -22,7 +22,7 @@
           <td>{{ empleado.cedula }}</td>
           <td>{{ empleado.id_tipo_empleado === 5 ? 'líder-jefe' : 'mantenimiento' }}</td>
           <td>
-            <button @click="editarEmpleado(empleado.id_empleado)">Editar</button>
+            <button @click="editarEmpleado(empleado.id_empleado, index)">Editar</button>
             <button @click="eliminarEmpleado(empleado.id_empleado, index)">Eliminar</button>
           </td>
         </tr>
@@ -99,10 +99,20 @@ export default {
         this.nuevoEmpleado.id_tipo_empleado
       ) {
         if (this.editando) {
-          this.empleados[this.indexEditando] = { ...this.empleados[this.indexEditando], ...this.nuevoEmpleado };
+          try{
+      
+          const result = await apiService.empleado.update(this.nuevoEmpleado.id_empleado, this.nuevoEmpleado)
+
+          if(result.cedula === this.nuevoEmpleado.cedula){
+           this.getEmployes()
+          }
+
+          }catch (error) {
+              alert(error.message)
+              console.error('Error al editar empleados:', error.message);
+            }
         } else {
           try {
-              console.log(this.nuevoEmpleado,"efjcnencnoelncolec")
               const apiresult = await apiService.empleado.create(this.nuevoEmpleado);
              if(apiresult.cedula = this.nuevoEmpleado.cedula){
               this.empleados.push(apiresult)
@@ -120,7 +130,8 @@ export default {
       }
     },
 
-    editarEmpleado(index) {
+    async editarEmpleado(id, index) {
+      this.nuevoEmpleado.id_empleado = id
       const empleado = this.empleados[index];
       this.nuevoEmpleado = { ...empleado };
       this.indexEditando = index;
