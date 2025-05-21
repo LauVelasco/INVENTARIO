@@ -19,11 +19,34 @@ const pool = require('../db');
  *                 $ref: '#/components/schemas/Prestamo'
  */
 router.get('/', (req, res) => {
-    pool.query('SELECT * FROM prestamo', (err, results) => {
-        if (err) return res.status(500).json({ error: err.message });
+    let devoluciones = []
+    pool.query(
+        'SELECT p.id_prestamo, e.nombre, e.cedula, h.nombre_herramienta, p.id_bodega, p.fecha_prestamo, p.hora_prestamo, p.tiempo_estimado ' +
+        'FROM prestamo p JOIN empleado e ON e.id_empleado = p.id_empleado ' +
+        'JOIN herramienta h ON p.id_herramienta = h.id_herramienta',
+        (err, results) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ error: err.message });
+            }
+        pool.query('SELECT id_prestamo from devolucion',
+            (err, results) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: err.message });
+                }
+            devoluciones = results.rows
+        }
+        )
+        results.rows.forEach( (element ) => {
+            devoluciones.includes(element.id_prestamo)?element.estado = 'Devuelto': element.estado = 'Prestado'
+        }) 
         res.json(results.rows);
-    });
+        }
+        
+    );
 });
+
 
 /**
  * @swagger
@@ -46,15 +69,16 @@ router.get('/', (req, res) => {
  *               $ref: '#/components/schemas/Prestamo'
  */
 router.post('/', (req, res) => {
+    console.log(req.body)
     const {
-        id_empleado, id_herramienta, id_bodega, fecha_prestamo, hora_prestamo,
-        tiempo_estimado, 
+        id_empleado, id_herramienta, id_bodega, fecha, hora,
+        tiempo, 
     } = req.body;
 
-    if (!id_empleado || !id_herramienta || !id_bodega || !fecha_prestamo || !hora_prestamo ||!tiempo_estimado) {
+    if (!id_empleado || !id_herramienta || !id_bodega || !fecha || !hora ||!tiempo) {
         return res.status(400).json({ error: 'Todos los campos son requeridos.' });
     }
-
+    let uptadteH = []
     const query = `
         INSERT INTO prestamo (
             id_empleado , id_herramienta, id_bodega, fecha_prestamo, hora_prestamo, tiempo_estimado
@@ -62,10 +86,21 @@ router.post('/', (req, res) => {
 
     pool.query(query, [
         id_empleado , id_herramienta, id_bodega, 
-        fecha_prestamo, hora_prestamo, tiempo_estimado], 
+        fecha, hora, tiempo], 
         (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.status(201).json(results.rows[0]);
+        pool.query("UPDATE herramienta SET estado=$1 WHERE id_herramienta=$2 RETURNING * ",['no_disponible',id_herramienta]
+            ,(err, resultsUpdate) => {
+                if (err) return res.status(500).json({ error: err.message });
+                console.log(resultsUpdate)
+                uptadteH = resultsUpdate.rows
+                if(uptadteH.length>0){
+                    console.log("siiii")
+                    return res.status(201).json(results.rows[0]);
+                }
+            }
+        )
+        
     });
 });
 

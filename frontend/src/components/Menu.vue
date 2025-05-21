@@ -7,7 +7,7 @@
       <div class="button-group">
         <button @click="mostrarComponente('Herramientas')" class="btn">Gestión de Herramientas</button>
         <button @click="mostrarComponente('Prestamos')" class="btn">Gestión de Préstamos</button>
-        <button @click="mostrarComponente('Devoluciones')" class="btn">Gestión de Devoluciones</button>
+        <button @click="mostrarComponente('Devoluciones')" class="btn">Lista de Devoluciones</button>
         <button @click="mostrarComponente('Empleados')" class="btn">Gestión de Empleados</button>
       </div>
     </div>
@@ -20,16 +20,19 @@
 
 <script>
 import Herramientas from './SeleccionHerramienta.vue';
-import Empleados from './Empleado.vue'
-/*import Prestamos from './Prestamos.vue';
-import Devoluciones from './Devoluciones.vue';
-import Empleados from './Empleados.vue';*/
+import Empleados from './Empleado.vue';
+import Prestamos from './Infoprestamo.vue';
+import Devoluciones from './DevolucionHerramienta.vue';
+
 
 export default {
   name: 'ManageTools',
   components: {
     Herramientas,
-    Empleados
+    Empleados, 
+    Prestamos,
+    Devoluciones
+
   },
   data() {
     return {

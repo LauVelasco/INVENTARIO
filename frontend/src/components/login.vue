@@ -25,6 +25,7 @@
 <script>
 
 import apiService from '../servicios/apiservices'
+import localStorage from '../servicios/localstorage'
 export default {
   name: 'TipoEmpleado',
   data() {
@@ -45,6 +46,7 @@ export default {
         if(apiresult.length === 0){
           console.log("F")
         }else{
+          localStorage.setItem('user', apiresult)
           this.$router.push({ name: 'Menu' });
         }
         console.log("Resultado de la API:", apiresult);

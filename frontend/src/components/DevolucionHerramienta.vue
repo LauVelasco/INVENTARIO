@@ -1,31 +1,6 @@
 
 <template>
-  <div class="form-box">
-    <h2>Devolución de Herramienta</h2>
-    <form @submit.prevent="guardarDevolucion">
-      <div class="input-box">
-        <label for="fecha">Fecha de Devolución</label>
-        <input type="date" v-model="fecha" required />
-      </div>
 
-      <div class="input-box">
-        <label for="hora">Hora de Devolución</label>
-        <input type="time" v-model="hora" required />
-      </div>
-
-      <div class="input-box">
-        <label for="descripcion">Descripción de la entrega</label>
-        <textarea v-model="descripcion" placeholder="Describe cómo se entrega la herramienta" required></textarea>
-      </div>
-
-      <div class="botones">
-        <button type="button" class="btn-secundario" @click="$emit('registro-anterior')">Anterior</button>
-        <button type="submit" class="btn">Actualizar</button>
-        <button type="button" class="btn-eliminar" @click="eliminar">Eliminar</button>
-        <button type="button" class="btn" @click="$emit('registro-completado')">Siguiente</button>
-      </div>
-    </form>
-  </div>
 </template>
 
 <script>

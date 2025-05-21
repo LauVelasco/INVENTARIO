@@ -33,7 +33,7 @@
     <div v-if="mostrarFormulario" class="formulario">
       <input v-model="nuevaHerramienta.codigo_herramienta" placeholder="Codigo" />
       <input v-model="nuevaHerramienta.nombre_herramienta" placeholder="Nombre" />
-      <input v-model="nuevaHerramienta.estado" placeholder="Estado" />
+      <input v-if="!editando" v-model="nuevaHerramienta.estado" placeholder="Estado" />
 
       <button @click="guardarHerramienta">
         {{ editando ? 'Actualizar' : 'Guardar' }}
@@ -77,7 +77,7 @@ export default {
       if (
         this.nuevaHerramienta.codigo_herramienta &&
         this.nuevaHerramienta.nombre_herramienta &&
-        this.nuevaHerramienta.estado 
+        (this.nuevaHerramienta.estado && !this.editando)
       ) {
         if (this.editando) {
           try{
