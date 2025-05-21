@@ -168,7 +168,10 @@ const apiService = {
     async delete(id) {
       try {
         const res = await fetch(`${BASE_URL}/bodega/${id}`, { method: 'DELETE' });
-        if (!res.ok) throw new Error('Error al eliminar bodega');
+        if (!res.ok) {
+          console.log("****aqui***"+res)
+          throw new Error('Error al eliminar bodega');
+        }
         return res.ok;
       } catch (err) {
         throw new Error(`Error de red o de servidor: ${err.message}`);
@@ -219,9 +222,12 @@ const apiService = {
     async delete(id) {
       try {
         const res = await fetch(`${BASE_URL}/herramienta/${id}`, { method: 'DELETE' });
-        if (!res.ok) throw new Error('Error al eliminar herramienta');
+        if (!res.ok) {
+          throw new Error('Error al eliminar herramienta, verifica que no este en prestamo');
+        }
         return res.ok;
       } catch (err) {
+        console.log("*****",err)
         throw new Error(`Error de red o de servidor: ${err.message}`);
       }
     },

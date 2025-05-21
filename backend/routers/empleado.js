@@ -191,7 +191,6 @@ router.delete('/:id', (req, res) => {
             console.log(err)
             return res.status(500).json({ error: err.message });
         }
-        console.log("********",results)
         if (results.rows.length > 0) {
             return res.status(405).json({ error: "El empleado tiene un prestamo activo" });
         }else{

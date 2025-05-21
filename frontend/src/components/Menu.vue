@@ -33,7 +33,7 @@ export default {
   },
   data() {
     return {
-      componenteSeleccionado: null,
+      componenteSeleccionado: Herramientas,
     };
   },
   methods: {

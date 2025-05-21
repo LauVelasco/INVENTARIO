@@ -71,10 +71,11 @@ router.get('/', (req, res) => {
  *                   type: string
  */
 router.post('/', (req, res) => {
-    const {codigo, nombre, estado } = req.body;
+    console.log(req.body)
+    const {codigo_herramienta, nombre_herramienta, estado } = req.body;
     pool.query(
         'INSERT INTO herramienta (codigo_herramienta, nombre_herramienta, estado) VALUES ($1, $2, $3) RETURNING *',
-        [codigo, nombre, estado],
+        [codigo_herramienta, nombre_herramienta, estado],
         (err, results) => {
             if (err) return res.status(500).json({ error: err.message });
             res.status(201).json(results.rows[0]);
@@ -129,12 +130,16 @@ router.post('/', (req, res) => {
  */
 router.put('/:id', (req, res) => {
     const { id } = req.params;
-    const { nombre, estado } = req.body;
+    const { codigo_herramienta, nombre_herramienta, estado } = req.body;
+    console.log(req.body) 
     pool.query(
-        'UPDATE herramienta SET nombre_herramienta=$1, estado_herramienta=$2 WHERE id_herramienta=$3 RETURNING *',
-        [nombre, estado, id],
+        'UPDATE herramienta SET codigo_herramienta=$1, nombre_herramienta=$2, estado=$3 WHERE id_herramienta=$4 RETURNING *',
+        [codigo_herramienta, nombre_herramienta, estado, id],
         (err, results) => {
-            if (err) return res.status(500).json({ error: err.message });
+            if (err) {
+                console.log(err)
+                return res.status(500).json({ error: err.message });
+            }
             res.json(results.rows[0]);
         }
     );
@@ -159,10 +164,21 @@ router.put('/:id', (req, res) => {
  */
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
-    pool.query('DELETE FROM herramienta WHERE id_herramienta=$1', [id], (err) => {
-        if (err) return res.status(500).json({ error: err.message });
-        res.status(204).send();
-    });
+    pool.query('SELECT * FROM prestamo where id_herramienta=$1', [id], (err, results) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({ error: err.message });
+        }
+        if (results.rows.length > 0) {
+            return res.status(405).json({ error: 'La herramienta con codigo '+ results.rows[0].codigo_herramienta+' esta prestada' });
+        }else{
+            pool.query('DELETE FROM herramienta WHERE id_herramienta=$1', [id], (err) => {
+                if (err) return res.status(500).json({ error: err.message });
+                res.status(204).send();
+            });
+        }
+    })
+   
 });
 
 module.exports = router;
