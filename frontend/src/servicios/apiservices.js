@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8000/api';
+const BASE_URL = 'http://127.0.0.1:8000/api';
 
 const apiService = {
   // Tipo de Empleado
@@ -10,6 +10,8 @@ const apiService = {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
         });
+        console.log("************")
+        console.log(res)
         if (!res.ok) throw new Error('Error al validar usuario');
         return await res.json();
       } catch (err) {
