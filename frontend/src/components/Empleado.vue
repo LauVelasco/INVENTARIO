@@ -20,7 +20,7 @@
           <td>{{ empleado.nombre }}</td>
           <td>{{ empleado.apellido }}</td>
           <td>{{ empleado.cedula }}</td>
-          <td>{{ empleado.id_tipo_empleado === 5 ? 'líder-jefe' : 'mantenimiento' }}</td>
+          <td>{{ empleado.id_tipo_empleado === 1 ? 'líder-jefe' : 'mantenimiento' }}</td>
           <td>
             <button @click="editarEmpleado(empleado.id_empleado, index)">Editar</button>
             <button @click="eliminarEmpleado(empleado.id_empleado, index)">Eliminar</button>

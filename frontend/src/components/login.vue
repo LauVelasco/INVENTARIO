@@ -37,9 +37,11 @@ export default {
   methods: {
    async enviarDatos() {
     const datosTecnico = {
-        id_tipo_empleado: this.tipoEmpleado == 'líder-jefe' ? 5 : 6,
+        id_tipo_empleado: this.tipoEmpleado == 'líder-jefe' ? 1 : 2,
         cedula: this.cedula,
       };
+
+      console.log(datosTecnico)
 
       try {
         const apiresult = await apiService.login.valideUser(datosTecnico);
